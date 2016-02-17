@@ -1,8 +1,8 @@
 {
-  "name": "react-app-boilerplate",
-  "version": "0.1.3",
-  "description": "React application boilerplate",
-  "author": "Cássio Zen",
+  "name": "Kanban",
+  "version": "0.1.0",
+  "description": "Kanban",
+  "author": "Oleg",
   "license": "ISC",
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server --progress",
