@@ -8,6 +8,7 @@ let cardList = [
     title: 'Read the Book',
     description: 'Read the whole book',
     status: 'in-progress',
+    color: '#BD8D31',
     tasks: []
   },
   {
@@ -15,6 +16,7 @@ let cardList = [
     title: 'Write some code',
     description: 'Code along with samples in the book',
     status: 'todo',
+    color: '#3A7E28',
     tasks: [
       {
         id: 1,

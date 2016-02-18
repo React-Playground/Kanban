@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import CheckList from './CheckList';
 
 export default class Card extends Component {
@@ -8,6 +8,18 @@ export default class Card extends Component {
       showDetails: false
     };
   }
+  static propTypes = {
+    id: PropTypes.number,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    color: PropTypes.string,
+    tasks: PropTypes.arrayOf(PropTypes.object)
+  };
+
+  toggleDetails() {
+    this.setState({showDetails: !this.state.showDetails})
+  }
+
   render() {
     let cardDetails;
     if (this.state.showDetails) {
@@ -18,11 +30,23 @@ export default class Card extends Component {
         </div>
       )
     }
+
+    let sideColor = {
+      position: 'absolute',
+      zIndex: -1,
+      top: 0,
+      bottom: 0,
+      left: 0,
+      width: 7,
+      backgroundColor: this.props.color
+    };
+
     return (
       <div className="card">
-        <div 
-          className="card_title"
-          onClick={() => this.setState({showDetails: !this.state.showDetails})}
+        <div style={sideColor} />
+        <div
+          className={this.state.showDetails ? "card_title card_title--is-open" : "card_title"}
+          onClick={this.toggleDetails.bind(this)}
         >
           { this.props.title }
         </div>
