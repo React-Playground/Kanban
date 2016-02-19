@@ -13,7 +13,8 @@ export default class Card extends Component {
     title: PropTypes.string,
     description: PropTypes.string,
     color: PropTypes.string,
-    tasks: PropTypes.arrayOf(PropTypes.object)
+    tasks: PropTypes.arrayOf(PropTypes.object),
+    taskCallbacks: PropTypes.object
   };
 
   toggleDetails() {
@@ -26,7 +27,11 @@ export default class Card extends Component {
       cardDetails = (
         <div className="card_details">
           {this.props.description}
-          <CheckList cardId={this.props.id} tasks={this.props.tasks} />
+          <CheckList
+            cardId={this.props.id}
+            tasks={this.props.tasks}
+            taskCallbacks={ this.props.taskCallbacks }
+          />
         </div>
       )
     }
