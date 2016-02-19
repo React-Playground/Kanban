@@ -28,6 +28,28 @@ export default class KanbanBoardContainer extends Component {
   }
 
   addTask(cardId, taskName) {
+    let cardIndex = this.state.cards.findIndex(card => card.id == cardId);
+
+    let newTask = {id: Date.now(), name:taskName, done: false};
+
+    let nextState = update(this.state.cards, {
+      [cardIndex]: {
+        tasks: {$push: [newTask]}
+      }
+    });
+
+    this.setState({cards:nextState});
+
+    fetch(`${API_URL}/cards/${cardId}/tasks`, {
+      method: 'post',
+      headers: API_HEADERS,
+      body: JSON.stringify(newTask)
+    })
+    .then(response => response.json())
+    .then(responseData => {
+      newTask.id = responseData.id;
+      this.setState({cards:nextState});
+    });
 
   }
 
@@ -42,16 +64,39 @@ export default class KanbanBoardContainer extends Component {
 
     this.setState({cards:nextState});
 
-    // fetch(`${API_URL}/cards/${cardId}/tasks/${taskId}`, {
-    //   method: 'delete',
-    //   headers: API_HEADERS
-    // });
+    fetch(`${API_URL}/cards/${cardId}/tasks/${taskId}`, {
+      method: 'delete',
+      headers: API_HEADERS
+    });
 
     console.log(cardId, taskId, taskIndex);
   }
 
   toggleTask(cardId, taskId, taskIndex) {
+    let cardIndex = this.state.cards.findIndex(card => card.id == cardId);
+    let newDoneValue;
 
+    let nextState = update(this.state.cards, {
+      [cardIndex]: {
+        tasks: {
+          [taskIndex]: {
+            done: {$apply: (done) => {
+              newDoneValue = !done
+              return newDoneValue;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    this.setState({cards:nextState});
+
+    fetch(`${API_URL}/cards/${cardId}/tasks/${taskId}`, {
+      method: 'put',
+      headers: API_HEADERS,
+      body: JSON.stringify({done:newDoneValue})
+    });
   }
 
 
