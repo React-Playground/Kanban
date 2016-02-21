@@ -37,5 +37,4 @@ let cardList = [
   }
 ];
 
-
 render(<KanbanBoardContainer />, document.getElementById('root'));
