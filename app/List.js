@@ -5,10 +5,12 @@ export default class List extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     cards: PropTypes.arrayOf(PropTypes.object),
-    taskCallbacks: PropTypes.object
+    taskCallbacks: PropTypes.object,
+    cardCallbacks: PropTypes.object
 
   };
   render() {
+    console.log(this.props);
     var cards = this.props.cards.map(card => {
       return <Card
         key={ card.id }
