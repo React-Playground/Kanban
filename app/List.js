@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Card from './Card'
+import { DropTarget } from 'react-dnd';
+import constants from './Constants';
 
 export default class List extends Component {
   static propTypes = {

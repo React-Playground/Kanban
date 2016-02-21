@@ -1,8 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import CheckList from './CheckList';
+import { DragSource } from 'react-dnd';
+import constants from './Constants';
 
-export default class Card extends Component {
+const cardDragSpec = {
+  beginDrag(props) {
+    return {
+      id: props.id
+    };
+  }
+}
+
+let collectDrag = (connect, monitor) => {
+  return {
+    connectDragSource: connect.dragSource()
+  };
+}
+
+class Card extends Component {
   constructor() {
     super(...arguments);
     this.state = {
@@ -15,7 +31,9 @@ export default class Card extends Component {
     description: PropTypes.string,
     color: PropTypes.string,
     tasks: PropTypes.arrayOf(PropTypes.object),
-    taskCallbacks: PropTypes.object
+    taskCallbacks: PropTypes.object,
+    cardCallbacks: PropTypes.object,
+    connectDragSource: PropTypes.func.isRequired
   };
 
   toggleDetails() {
@@ -23,6 +41,7 @@ export default class Card extends Component {
   }
 
   render() {
+    const { connectDragSource } = this.props;
     let cardDetails;
     if (this.state.showDetails) {
       cardDetails = (
@@ -47,7 +66,7 @@ export default class Card extends Component {
       backgroundColor: this.props.color
     };
 
-    return (
+    return connectDragSource(
       <div className="card">
         <div style={sideColor} />
         <div
@@ -67,3 +86,6 @@ export default class Card extends Component {
     );
   }
 }
+
+
+export default DragSource(constants.CARD, cardDragSpec, collectDrag)(Card);
