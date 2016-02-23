@@ -5,9 +5,7 @@ import constants from './Constants';
 
 const listTargetSpec = {
   hover(props, monitor) {
-    console.log(props);
     const draggedId = monitor.getItem().id;
-    console.log(draggedId);
     props.cardCallbacks.updateStatus(draggedId, props.id)
   }
 };
