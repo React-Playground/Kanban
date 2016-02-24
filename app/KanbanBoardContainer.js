@@ -134,6 +134,26 @@ export default class KanbanBoardContainer extends Component {
     }
   }
 
+  persistCardDrag(cardId, status) {
+    let cardIndex = this.state.cards.findIndex(card => card.id == cardId);
+
+    let card = this.state.cards[cardIndex];
+
+    fetch(`${API_URL}/cards/${cardId}`, {
+      method: 'put',
+      headers: API_HEADERS,
+      body: JSON.stringify({status: card.status, row_order_position: cardIndex})
+    })
+    .then((response) => {
+      if(!response.ok) {
+        throw new Error("server response wasn't ok");
+      }
+    })
+    .catch((error) => {
+      console.log('error', error);
+    })
+  }
+
   render() {
     return (
       <KanbanBoard
@@ -145,7 +165,8 @@ export default class KanbanBoardContainer extends Component {
         }}
         cardCallbacks={{
         updateStatus: throttle(this.updateCardStatus.bind(this), 500),
-        updatePosition: throttle(this.updateCardPosition.bind(this), 500)
+        updatePosition: throttle(this.updateCardPosition.bind(this), 500),
+        persistCardDrag: this.persistCardDrag.bind(this)
         }}
         />
     );
