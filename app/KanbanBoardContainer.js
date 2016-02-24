@@ -3,6 +3,7 @@ import KanbanBoard from './KanbanBoard';
 import 'whatwg-fetch';
 import 'babel-polyfill';
 import update from 'react-addons-update';
+import { throttle } from 'lodash';
 
 const API_URL = 'http://kanbanapi.pro-react.com';
 const API_HEADERS = {
@@ -143,8 +144,8 @@ export default class KanbanBoardContainer extends Component {
         add: this.addTask.bind(this)
         }}
         cardCallbacks={{
-        updateStatus: this.updateCardStatus.bind(this),
-        updatePosition: this.updateCardPosition.bind(this)
+        updateStatus: throttle(this.updateCardStatus.bind(this), 500),
+        updatePosition: throttle(this.updateCardPosition.bind(this), 500)
         }}
         />
     );
